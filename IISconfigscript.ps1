@@ -1,7 +1,7 @@
 Import-Module WebAdministration
 
 $array= Get-ChildItem -Path "D:\github_staging\apis\" -Directory -Filter *gha* -Recurse 
-
+$skipParentArr= @() 
 foreach($folderitem in $array){
     
     $folderpath= $folderitem | % { $_.FullName }
@@ -20,6 +20,14 @@ foreach($folderitem in $array){
 	$parentName =$parentName -split $C1
 	$parentName= $parentName[0]
 	# $parentName
+
+
+	if (!($skipParentArr -contains $parentName)){
+	$skipParentArr+= $parentName
+	}
+	else {
+		continue
+	}
 
 
 	$Sites= "GithubSites\apis\" + $parentName
