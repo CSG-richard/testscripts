@@ -22,7 +22,7 @@ foreach($folderitem in $array){
 	# $parentName
 
 
-	$Sites= "GithubSites\" + $parentName
+	$Sites= "GithubSites\apis\" + $parentName
 	# $Sites
 
 	$children= Get-ChildItem -Path $parent -Directory -Filter *gha* 
@@ -79,7 +79,7 @@ foreach($folderitem in $array){
 			Set-ItemProperty -Path IIS:\AppPools\$appPoolName managedRuntimeVersion ""
 		}
 
-		$existingAppName= $parentName + $appfoldername
+		$existingAppName= "apis\"+ $parentName + $appfoldername
 		$existingAppName=$existingAppName.replace("\","/")
 		# $existingAppName
 
