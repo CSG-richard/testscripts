@@ -1,7 +1,7 @@
 Import-Module WebAdministration
 
 $array= Get-ChildItem -Path "D:\github_staging\apis\" -Directory -Filter *gha* -Recurse 
-$skipParentArr= @() 
+
 foreach($folderitem in $array){
     
     $folderpath= $folderitem | % { $_.FullName }
@@ -22,9 +22,7 @@ foreach($folderitem in $array){
 	# $parentName
 
 
-	
-
-	$Sites= "GithubSites" + $parentName
+	$Sites= "GithubSites\" + $parentName
 	# $Sites
 
 	$children= Get-ChildItem -Path $parent -Directory -Filter *gha* 
@@ -44,6 +42,7 @@ foreach($folderitem in $array){
 	
 	if ($version -lt $versionchecked){
 		$version= $versionchecked
+		# $version
 	}
 	}
 	
@@ -59,12 +58,13 @@ foreach($folderitem in $array){
 	$versionchecked= [int]$pathsplit[1]
 	
 	if ($version -eq $versionchecked){
+		# $versionchecked
 		$appfoldername= $pathsplit[0]
 		
 		#------Not used --- Could be Skipped -------------------------
-		# $stepupfolder= Split-Path -Parent $childfolderpath | Split-Path -Leaf
+		$stepupfolder= Split-Path -Parent $childfolderpath | Split-Path -Leaf
 		
-		# $appfolderpathshort= $childfolderpath	
+		$appfolderpathshort= $childfolderpath	
 		# or
 		
 		# $appfolderpathshort= "*" + $stepupfolder + "/"+ $appfoldername
@@ -88,8 +88,8 @@ foreach($folderitem in $array){
 		}
 		
 
-		if(Get-WebApplication -Name $appfoldername){
-		$appobj= Get-WebApplication -Name $appfoldername 
+		if(Get-WebApplication -Name $existingAppName){
+		$appobj= Get-WebApplication -Name $existingAppName
 		foreach ($appObj in $appobj){
 
 		$appPath= $appObj.PhysicalPath
@@ -99,8 +99,8 @@ foreach($folderitem in $array){
 		if (($parentsappPath -eq $parent)){
 
 		if(!($appPath -eq $childfolderpath)){
-
-		Remove-WebApplication -Site $Sites -Name $appfoldername 
+		Write-Host 1
+		Remove-WebApplication -Site "GithubSites" -Name $existingAppName
 		New-WebApplication -Site $Sites  -Name $appfoldername -PhysicalPath "$childfolderpath" -ApplicationPool $appPoolName
 		}
 
