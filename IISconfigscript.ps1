@@ -85,6 +85,7 @@ foreach($folderitem in $array){
 
 		if(!(Get-WebApplication -Name $existingAppName)){
 		New-WebApplication -Site $Sites -Name $appfoldername -PhysicalPath "$childfolderpath" -ApplicationPool $appPoolName 
+		Write-Host "New application created"
 		}
 		
 
@@ -99,7 +100,6 @@ foreach($folderitem in $array){
 		if (($parentsappPath -eq $parent)){
 
 		if(!($appPath -eq $childfolderpath)){
-		Write-Host 1
 		Remove-WebApplication -Site "GithubSites" -Name $existingAppName
 		New-WebApplication -Site $Sites  -Name $appfoldername -PhysicalPath "$childfolderpath" -ApplicationPool $appPoolName
 		}
