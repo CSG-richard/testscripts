@@ -1,6 +1,6 @@
 Import-Module WebAdministration
 
-$array= Get-ChildItem -Path "D:\github_staging\apis\" -Directory -Filter *gha* -Recurse 
+$array= Get-ChildItem -Path "D:\test_1_soiver8\github_staging\apis\" -Directory -Filter *gha* -Recurse 
 $skipParentArr= @() 
 foreach($folderitem in $array){
     
@@ -30,7 +30,7 @@ foreach($folderitem in $array){
 	}
 
 
-	$Sites= "GithubSites\apis\" + $parentName
+	$Sites= "Default Web Site/github_staging/apis" + $parentName
 	# $Sites
 
 	$children= Get-ChildItem -Path $parent -Directory -Filter *gha* 
@@ -87,7 +87,7 @@ foreach($folderitem in $array){
 			Set-ItemProperty -Path IIS:\AppPools\$appPoolName managedRuntimeVersion ""
 		}
 
-		$existingAppName= "apis\"+ $parentName + $appfoldername
+		$existingAppName= "github_staging\apis\"+ $parentName + $appfoldername
 		$existingAppName=$existingAppName.replace("\","/")
 		# $existingAppName
 
@@ -108,7 +108,7 @@ foreach($folderitem in $array){
 		if (($parentsappPath -eq $parent)){
 
 		if(!($appPath -eq $childfolderpath)){
-		Remove-WebApplication -Site "GithubSites" -Name $existingAppName
+		Remove-WebApplication -Site "Default Web Site" -Name $existingAppName
 		New-WebApplication -Site $Sites  -Name $appfoldername -PhysicalPath "$childfolderpath" -ApplicationPool $appPoolName
 		}
 
@@ -123,41 +123,3 @@ foreach($folderitem in $array){
 	
 	
 }
-
-
-
-
-
-
-
-<# foreach($folderitem in $array){
-    
-    $folderpath= $folderitem | % { $_.FullName }
-
-    $foldername= $folderitem.Name
-    
-    if (!(Get-WebApplication -Name $foldername)){
-        $pathsplit= $foldername -split "-v"
-	$mainfolder= $pathsplit[0]
-	
-	if (Get-WebApplication -Name $mainfolder){
-	Remove-WebApplication -Name $mainfolder -Site "GithubSites\apis"
-	}
-	
-	if (!(Test-Path "IIS:\AppPools\$mainfolder)){
-        New-WebAppPool -Name $foldername -Force
-        Set-ItemProperty -Path IIS:\AppPools\$mainfolder managedRuntimeVersion ""
-	}
-
-        New-WebApplication -Name $mainfolder -Site "GithubSites\apis" -PhysicalPath $folderpath -ApplicationPool $foldername
-	
-    }
-} #>
-
-
-	# if (!(Test-Path "IIS:\AppPools\$mainfolder")){
-        # New-WebAppPool -Name $foldername -Force
-        # Set-ItemProperty -Path IIS:\AppPools\$mainfolder managedRuntimeVersion ""
-	# }
-
-
