@@ -19,6 +19,10 @@ foreach($folderitem in $array){
 	$parentTitle= $parentTitle[0]
 	$parentName =$parentName -split $C1
 	$parentName= $parentName[0]
+	if ($parentName -eq ""){
+		$parentTitle = "apis"
+	}
+	# $parentTitle
 	# $parentName
 
 
@@ -29,8 +33,8 @@ foreach($folderitem in $array){
 		continue
 	}
 
-
-	$Sites= "Default Web Site/github_staging/apis" + $parentName
+	# Comment => Sites= Default Web Site/github_staging/apis/ <--- end with '/'
+	$Sites= "Default Web Site/github_staging/apis/" + $parentName
 	# $Sites
 
 	$children= Get-ChildItem -Path $parent -Directory -Filter *gha* 
