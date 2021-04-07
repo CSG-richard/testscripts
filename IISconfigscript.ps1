@@ -32,7 +32,7 @@ foreach($folderitem in $array){
 	else {
 		continue
 	}
-
+	
 	# Comment => Sites= Default Web Site/github_staging/apis/ <--- end with '/'
 	$Sites= "Default Web Site/github_staging/apis/" + $parentName
 	# $Sites
@@ -83,7 +83,8 @@ foreach($folderitem in $array){
 		# $appfolderpathshort
 		#------Could be Skipped -------------------------	
 		
-		$appPoolName = $parentTitle +"-"+ $appfoldername
+		$appPoolName = $parentName + $appfoldername
+		$appPoolName= $appPoolName.replace("\","-")
 		# $appPoolName
 
 		if (!(Test-Path "IIS:\AppPools\$appPoolName")){
