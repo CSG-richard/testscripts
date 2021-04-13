@@ -88,8 +88,14 @@ foreach($folderitem in $array){
 		# $appPoolName
 
 		if (!(Test-Path "IIS:\AppPools\$appPoolName")){
+			if ($appPoolName -contains "standard", "Standard"){
+			New-WebAppPool -Name $appPoolName
+			Set-ItemProperty -Path IIS:\AppPools\$appPoolName managedRuntimeVersion v4.0	
+			}
+			else{
 			New-WebAppPool -Name $appPoolName
 			Set-ItemProperty -Path IIS:\AppPools\$appPoolName managedRuntimeVersion ""
+			}	
 		}
 
 		$existingAppName= "github_staging\apis\"+ $parentName + $appfoldername
