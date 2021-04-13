@@ -88,7 +88,7 @@ foreach($folderitem in $array){
 		# $appPoolName
 
 		if (!(Test-Path "IIS:\AppPools\$appPoolName")){
-			if ($appPoolName -contains "standard", "Standard"){
+			if ($appPoolName -like "*[sS]tandard*"){
 			New-WebAppPool -Name $appPoolName
 			Set-ItemProperty -Path IIS:\AppPools\$appPoolName managedRuntimeVersion v4.0	
 			}
